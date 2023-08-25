@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+    <body>
+        <div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+        </div>
+
+        <div>
+        <h1>Uploaded Image</h1>
+
+        </div>
+
+        <div>
+        <h1>Generated Image</h1>
+        
+        </div>
+    </body>
+
+
+
+</html>
