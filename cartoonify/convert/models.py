@@ -16,5 +16,13 @@ class UploadImage(models.Model):
     style = models.CharField(max_length=50, choices=styles, default="Shinkai")
     
     def __str__(self):
-        return self.title
+        return self.name
+    
+class DownloadImage(models.Model):
+    name = models.CharField(max_length=50, null=True)
+    img_url = models.URLField()
+    style = models.CharField(max_length=50, choices=styles, default="Shinkai")
+    
+    def __str__(self):
+        return self.name
     

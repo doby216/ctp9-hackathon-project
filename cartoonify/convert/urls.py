@@ -7,7 +7,7 @@ from . import views
 
 urlpatterns = [
     path('upload', views.upload, name='upload'),
-    path('result', views.result, name='result'),
+    path('result', views.result, name='result')
 ]
 
 if settings.DEBUG:

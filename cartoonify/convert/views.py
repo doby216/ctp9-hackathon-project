@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from .forms import ImageForm
+from .serializer import DownloadImageSerializer
+from rest_framework import status
 import subprocess, os
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
+@api_view(["POST", "GET"])
 def upload(request):
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
@@ -12,11 +15,19 @@ def upload(request):
         if form.is_valid():
             form.save()
             style = form["style"].value()
-            subprocess.run(["python", "convert/CartoonGAN/convert.py", "--style",style])
-            return redirect("result")
+            subprocess.run(["python3", "convert/CartoonGAN/convert.py", "--style",style])
+            data = {
+            'name' : request.data.get('name'),
+            'style' : request.data.get('style'),
+            'img_url': "http://208.167.255.60/media/output.png"
+            }
+            serializer = DownloadImageSerializer(data=data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         form = ImageForm()
-    return render(request,'index.html', {'form': form})
+        return render(request,'index.html', {'form': form})
 
 def result(request):
     return render(request,'result.html')
