@@ -11,7 +11,8 @@ def upload(request):
         remove_image('media')
         if form.is_valid():
             form.save()
-            subprocess.call(["python", "convert/CartoonGAN/convert.py"])
+            style = form["style"].value()
+            subprocess.run(["python", "convert/CartoonGAN/convert.py", "--style",style])
             return redirect("result")
     else:
         form = ImageForm()

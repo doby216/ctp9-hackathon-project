@@ -8,9 +8,9 @@ import torchvision.utils as vutils
 from network.Transformer import Transformer
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--style')
 parser.add_argument('--input_image_path', default="media/input.png")
 parser.add_argument('--output_dir', default = 'media')
-parser.add_argument('--style', default = 'Shinkai')
 parser.add_argument('--load_size', default = 450)
 parser.add_argument('--model_path', default = 'convert/CartoonGAN/models')
 parser.add_argument('--gpu', type=int, default = 0)
