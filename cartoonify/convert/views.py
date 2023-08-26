@@ -24,7 +24,11 @@ def upload(request):
             serializer = DownloadImageSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                res = Response(serializer.data, status=status.HTTP_201_CREATED)
+                res['Access-Control-Allow-Origin'] = '*'
+                res['Access-Control-Allow-Headers'] = 'Content-Type'
+                res['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+                return res
     else:
         form = ImageForm()
         return render(request,'index.html', {'form': form})
@@ -33,5 +37,6 @@ def result(request):
     return render(request,'result.html')
 
 def remove_image(dir):
-    for f in os.listdir(dir):
-        os.remove(os.path.join(dir, f))
+    if len(os.listdir(dir)) > 0:
+        for f in os.listdir(dir):
+            os.remove(os.path.join(dir, f))
